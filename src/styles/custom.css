@@ -1,0 +1,58 @@
+:root {
+	--sl-color-accent-low: #e5efe7;
+	--sl-color-accent: #356b4c;
+	--sl-color-accent-high: #1e4932;
+}
+
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #1c3426;
+	--sl-color-accent: #8bc49b;
+	--sl-color-accent-high: #c8ecd0;
+}
+
+.hero h1 {
+	letter-spacing: -0.025em;
+}
+
+.sl-markdown-content a {
+	text-underline-offset: 0.18em;
+}
+
+@media print {
+	header,
+	.sidebar,
+	.right-sidebar,
+	starlight-toc,
+	starlight-theme-select,
+	starlight-lang-select,
+	starlight-search-button,
+	starlight-menu-button,
+	.pagination,
+	footer {
+		display: none !important;
+	}
+
+	body,
+	main,
+	article {
+		color: #000 !important;
+		background: #fff !important;
+		box-shadow: none !important;
+	}
+
+	main {
+		max-width: 100% !important;
+		padding: 0 !important;
+	}
+
+	table,
+	tr,
+	img,
+	.card {
+		break-inside: avoid;
+	}
+
+	a {
+		color: #000 !important;
+	}
+}
