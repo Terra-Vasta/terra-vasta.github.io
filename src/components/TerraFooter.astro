@@ -1,0 +1,22 @@
+---
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
+import Pagination from 'virtual:starlight/components/Pagination';
+
+const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
+---
+
+<footer class="tv-doc-footer">
+	<nav class="tv-footer-social" aria-label={isEnglish ? 'Project links and social media' : 'Links do projeto e redes sociais'}>
+		<span class="tv-footer-social__label">{isEnglish ? 'Follow the project' : 'Acompanhe o projeto'}</span>
+		<a class="tv-footer-social__support" href="https://ko-fi.com/majorteko">{isEnglish ? 'Support on Ko-fi' : 'Apoie no Ko-fi'}</a>
+		<a href="https://bsky.app/profile/majorteko.bsky.social">Bluesky</a>
+		<a href="https://x.com/MajorTeko">X</a>
+		<a href="https://github.com/Terra-Vasta/terra-vasta.github.io">GitHub</a>
+	</nav>
+	<div class="meta sl-flex">
+		<EditLink />
+		<LastUpdated />
+	</div>
+	<Pagination />
+</footer>

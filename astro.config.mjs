@@ -6,14 +6,18 @@ export default defineConfig({
 	site: 'https://terra-vasta.github.io',
 	integrations: [
 		starlight({
-			title: 'Terra Vasta',
-			description: 'Referência aberta do sistema e cenário de Terra Vasta.',
+			title: 'A Terra Vasta',
+			description: 'Um sistema de fantasia sombria e um cenário de sobrevivência, exploração e decadência cósmica.',
 			defaultLocale: 'root',
 			locales: {
 				root: { label: 'Português (Brasil)', lang: 'pt-BR' },
 				'en-us': { label: 'English (US)', lang: 'en-US' },
 			},
 			customCss: ['./src/styles/custom.css'],
+			components: {
+				Header: './src/components/TerraHeader.astro',
+				Footer: './src/components/TerraFooter.astro',
+			},
 			social: [
 				{
 					icon: 'github',

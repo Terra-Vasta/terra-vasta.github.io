@@ -1,37 +1,38 @@
 ---
-title: Terra Vasta
-description: The open reference for the Terra Vasta system and setting.
+title: A Terra Vasta
+description: Dark fantasy, cosmic decay, survival, and exploration.
 template: splash
-hero:
-  tagline: A fantasy game system and an original setting, taking shape as an open reference.
-  actions:
-    - text: Explore the system
-      link: /en-us/sistema/
-      icon: right-arrow
-    - text: Explore the setting
-      link: /en-us/cenario/
-      icon: right-arrow
-      variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+<div class="tv-home">
+	<section class="tv-hero" aria-labelledby="home-title">
+		<div class="tv-hero__art" aria-hidden="true"></div>
+		<div class="tv-hero__content">
+			<p class="tv-eyebrow">A dark fantasy setting</p>
+			<p class="tv-hero__subeyebrow">Cosmic decay · survival · exploration</p>
+			<h1 id="home-title">A Terra Vasta</h1>
+			<p class="tv-hero__promise">The world has already ended. What will you do with what remains?</p>
+			<blockquote class="tv-quote">
+				<p>“The world does not need saving. It died millennia ago. We are merely worms crawling over its corpse to see who inherits the ashes.”</p>
+				<cite>— Archmage Serkan Vhal</cite>
+			</blockquote>
+			<a class="tv-button tv-button--primary" href="/en-us/sistema/">Explore the System <span aria-hidden="true">→</span></a>
+		</div>
+		<a class="tv-hero__down" href="#explorar" aria-label="Continue to site sections"><span aria-hidden="true">⌄</span></a>
+	</section>
 
-## Explore Terra Vasta
+	<nav id="explorar" class="tv-quicklinks" aria-label="Explore A Terra Vasta">
+		<a class="tv-quicklink" href="/en-us/sistema/"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 10c7-3 13-2 19 2v29c-6-4-12-5-19-2V10Zm38 0c-7-3-13-2-19 2v29c6-4 12-5 19-2V10ZM12 16c3-.5 6 0 9 2m-9 4c3-.5 6 0 9 2m6-6c3-2 6-2.5 9-2m-9 8c3-2 6-2.5 9-2"/></svg><span class="tv-quicklink__body"><strong>System</strong><span>Rules for creating characters, exploring, surviving, and facing Taavira’s dangers.</span><em>Explore the System <b aria-hidden="true">→</b></em></span></a>
+		<a class="tv-quicklink" href="/en-us/cenario/"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="11"/><path d="m24 3 4 15 15 6-15 4-4 17-4-17-15-4 15-6 4-15Z"/><circle cx="24" cy="24" r="2"/></svg><span class="tv-quicklink__body"><strong>Setting</strong><span>A world in ruins, shaped by fallen gods, decaying empires, and hostile regions.</span><em>Discover Taavira <b aria-hidden="true">→</b></em></span></a>
+		<a class="tv-quicklink" href="/en-us/compendios/"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="m9 7 24-3 7 6-24 3-7-6Zm0 0v8l7 5v-7m24-3v8l-24 3v-8m-7 8 24-3 7 6-24 3-7-6Zm0 0v8l7 5v-7m24-3v8l-24 3v-8m-7 8 24-3 7 6-24 3-7-6Zm0 0v8l7 5v-7m24-3v8l-24 3v-8"/></svg><span class="tv-quicklink__body"><strong>Compendiums</strong><span>Skills, feats, spells, and more, organized for quick reference.</span><em>Browse Compendiums <b aria-hidden="true">→</b></em></span></a>
+		<a class="tv-quicklink" href="/en-us/creditos-e-licencas/"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="m24 4 5 12 13-5-5 13 7 10-14 1-6 10-6-10-14-1 7-10-5-13 13 5 5-12Z"/><circle cx="24" cy="24" r="7"/><path d="M24 17v14m-7-7h14"/></svg><span class="tv-quicklink__body"><strong>About this project</strong><span>Learn about the project, credits, and licenses for this open reference.</span><em>Learn more <b aria-hidden="true">→</b></em></span></a>
+	</nav>
 
-<CardGrid>
-	<Card title="System" icon="open-book">
-		Rules and references organized for quick lookup.
-	</Card>
-	<Card title="Setting" icon="document">
-		Places, peoples, and fictional elements of Terra Vasta.
-	</Card>
-	<Card title="Compendiums" icon="right-arrow">
-		Skill, feat, and spell catalogs will draw from individual content files.
-	</Card>
-</CardGrid>
+	<section class="tv-story" aria-label="Learn about the system, setting, and narrative premise">
+		<section class="tv-story__section" aria-labelledby="system-title"><p class="tv-section-index">01 / THE SYSTEM</p><div><h2 id="system-title">Survival is a series of choices.</h2><p>Explore a world of scarcity, face tactical combat, and decide how far you will go for power. Magic can change the course of an expedition—but never without risk.</p><a class="tv-text-link" href="/en-us/sistema/">Read the rules <span aria-hidden="true">→</span></a></div></section>
+		<section class="tv-story__section" aria-labelledby="setting-title"><p class="tv-section-index">02 / THE SETTING</p><div><h2 id="setting-title">Taavira was built upon an ancient death.</h2><p>Decaying gods, ruined empires, and hostile regions shape a world that endures atop the scars of its past. What remains lies scattered across places few dare to explore.</p><a class="tv-text-link" href="/en-us/cenario/">Explore Taavira <span aria-hidden="true">→</span></a></div></section>
+		<section class="tv-hope" aria-labelledby="hope-title"><p class="tv-section-index">03 / EXPLORATION AND HOPE</p><div><h2 id="hope-title">Some still descend into the ruins.</h2><p>The Eighth is a mercenary guild that ventures into abysses and ruins in search of knowledge and artifacts that could close Taavira’s wounds. In a world that has nearly abandoned hope, its members still carry that burden.</p></div></section>
+	</section>
 
-## Rules reference
-
-Terra Vasta uses the **System Reference Document 5.2.1** as its compatibility baseline. Reused SRD material remains subject to its own license terms and attribution. See [credits and licenses](/en-us/creditos-e-licencas/) for details.
-
-This is an independent publication and is not affiliated with or endorsed by Wizards of the Coast.
+	<footer class="tv-home-footer"><a href="/en-us/creditos-e-licencas/">Credits and licenses</a><span>A Terra Vasta · Independent SRD</span></footer>
+</div>
