@@ -6,7 +6,7 @@ export default defineConfig({
 	site: 'https://terra-vasta.github.io',
 	integrations: [
 		starlight({
-			title: 'A Terra Vasta',
+			title: 'Terra Vasta',
 			description: 'Um sistema de fantasia sombria e um cenário de sobrevivência, exploração e decadência cósmica.',
 			defaultLocale: 'root',
 			locales: {
@@ -50,6 +50,11 @@ export default defineConfig({
 					label: 'Créditos e licenças',
 					translations: { 'en-US': 'Credits and licenses' },
 					items: [{ slug: 'creditos-e-licencas' }],
+				},
+				{
+					label: 'Privacidade',
+					translations: { 'en-US': 'Privacy' },
+					items: [{ slug: 'politica-de-privacidade' }],
 				},
 			],
 		}),

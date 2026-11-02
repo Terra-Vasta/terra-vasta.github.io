@@ -23,3 +23,11 @@ Terra Vasta is an independent publication and is not affiliated with or endorsed
 	<h2 id="support-title">Follow and support the project</h2>
 	<p>If this project is useful to you, consider <a href="https://ko-fi.com/majorteko">supporting it on Ko-fi</a>. You can also follow updates on <a href="https://bsky.app/profile/majorteko.bsky.social">Bluesky</a> and <a href="https://x.com/MajorTeko">X</a>.</p>
 </section>
+
+## About the studio
+
+Dragão de Botas Studio is an independent studio dedicated to creating tabletop RPGs, books, and video games. Terra Vasta is one of the studio’s original projects.
+
+## Contact
+
+For questions about the project, the website, or this policy, email [dragaodebotas.studio@gmail.com](mailto:dragaodebotas.studio@gmail.com). See also the [Privacy Policy](/en-us/politica-de-privacidade/).
