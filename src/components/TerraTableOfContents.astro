@@ -1,0 +1,48 @@
+---
+import TableOfContentsList from './TerraTableOfContentsList.astro';
+
+const { toc } = Astro.locals.starlightRoute;
+const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
+---
+
+{toc && (
+	<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+		<div class="tv-toc-actions">
+			<h2 id="starlight__on-this-page">{Astro.locals.t('tableOfContents.onThisPage')}</h2>
+			<button type="button" class="tv-print-button">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z"/></svg>
+				<span>{isEnglish ? 'Print / Save as PDF' : 'Imprimir / Salvar em PDF'}</span>
+			</button>
+		</div>
+		<nav aria-labelledby="starlight__on-this-page">
+			<TableOfContentsList toc={toc.items} />
+		</nav>
+	</starlight-toc>
+)}
+
+<script>
+	import '../../node_modules/@astrojs/starlight/dist/components-internals/TableOfContents/starlight-toc.js';
+	document.querySelector('.tv-print-button')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+	@layer starlight.core {
+		.tv-toc-actions { display: grid; gap: 0.75rem; margin-bottom: 0.5rem; }
+		.tv-toc-actions h2 { margin: 0; }
+		.tv-print-button {
+			display: flex;
+			align-items: center;
+			gap: 0.45rem;
+			padding: 0.4rem 0.55rem;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.3rem;
+			background: transparent;
+			color: var(--sl-color-text);
+			font: inherit;
+			font-size: var(--sl-text-xs);
+			cursor: pointer;
+		}
+		.tv-print-button:hover { border-color: var(--sl-color-accent); color: var(--sl-color-text-accent); }
+		.tv-print-button svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+	}
+</style>

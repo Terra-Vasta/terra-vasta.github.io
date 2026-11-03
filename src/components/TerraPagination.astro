@@ -1,0 +1,81 @@
+---
+const { dir, sidebar } = Astro.locals.starlightRoute;
+const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
+const isRtl = dir === 'rtl';
+
+function getLinks(items) {
+	return items.flatMap((item) => item.type === 'link' ? [item] : getLinks(item.entries));
+}
+
+function containsCurrent(item) {
+	return item.type === 'link' ? item.isCurrent : item.entries.some(containsCurrent);
+}
+
+function findCurrentGroup(items) {
+	for (const item of items) {
+		if (item.type !== 'group' || !containsCurrent(item)) continue;
+		const nested = findCurrentGroup(item.entries);
+		return nested ?? item;
+	}
+	return undefined;
+}
+
+const group = findCurrentGroup(sidebar);
+const links = group ? getLinks(group.entries) : [];
+const currentIndex = links.findIndex((link) => link.isCurrent);
+const prev = currentIndex > 0 ? links[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < links.length - 1 ? links[currentIndex + 1] : undefined;
+---
+
+{(prev || next) && (
+	<div class="pagination-links print:hidden" dir={dir}>
+		{prev && (
+			<a href={prev.href} rel="prev">
+				<span class="tv-page-arrow" aria-hidden="true">{isRtl ? '→' : '←'}</span>
+				<span>
+					{isEnglish ? 'Previous' : 'Anterior'}
+					<br />
+					<span class="link-title">{prev.label}</span>
+				</span>
+			</a>
+		)}
+		{next && (
+			<a href={next.href} rel="next">
+				<span class="tv-page-arrow" aria-hidden="true">{isRtl ? '←' : '→'}</span>
+				<span>
+					{isEnglish ? 'Next' : 'Próximo'}
+					<br />
+					<span class="link-title">{next.label}</span>
+				</span>
+			</a>
+		)}
+	</div>
+)}
+
+<style>
+	@layer starlight.core {
+		.pagination-links {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+			gap: 1rem;
+		}
+		a {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			gap: 0.5rem;
+			width: 100%;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.5rem;
+			padding: 1rem;
+			text-decoration: none;
+			color: var(--sl-color-gray-2);
+			box-shadow: var(--sl-shadow-md);
+			overflow-wrap: anywhere;
+		}
+		[rel='next'] { justify-content: end; text-align: end; flex-direction: row-reverse; }
+		a:hover { border-color: var(--sl-color-gray-2); }
+		.link-title { color: var(--sl-color-white); font-size: var(--sl-text-2xl); line-height: var(--sl-line-height-headings); }
+		.tv-page-arrow { flex-shrink: 0; font-size: 1.5rem; }
+	}
+</style>

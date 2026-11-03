@@ -1,0 +1,20 @@
+---
+const { toc, depth = 0 } = Astro.props;
+---
+
+<ul style={`--tv-toc-depth: ${depth}`}>
+	{toc.map((heading) => (
+		<li>
+			<a href={'#' + heading.slug}><span>{heading.text}</span></a>
+			{heading.children.length > 0 && <Astro.self toc={heading.children} depth={depth + 1} />}
+		</li>
+	))}
+</ul>
+
+<style>
+	@layer starlight.core {
+		ul { padding: 0; list-style: none; }
+		a { display: block; border-radius: 0.25rem; padding: 0.25rem 0.5rem 0.25rem calc(var(--tv-toc-depth) * 0.75rem + 0.5rem); line-height: 1.25; }
+		a[aria-current='true'] { color: var(--sl-color-text-accent); }
+	}
+</style>

@@ -1,7 +1,7 @@
 ---
 import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
-import Pagination from 'virtual:starlight/components/Pagination';
+import TerraPagination from './TerraPagination.astro';
 
 const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
 ---
@@ -18,5 +18,5 @@ const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
 		<EditLink />
 		<LastUpdated />
 	</div>
-	<Pagination />
+	<TerraPagination />
 </footer>

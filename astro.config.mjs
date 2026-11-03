@@ -17,6 +17,7 @@ export default defineConfig({
 			components: {
 				Header: './src/components/TerraHeader.astro',
 				Footer: './src/components/TerraFooter.astro',
+				TableOfContents: './src/components/TerraTableOfContents.astro',
 			},
 			social: [
 				{
@@ -47,14 +48,13 @@ export default defineConfig({
 					items: [{ autogenerate: { directory: 'compendios' } }],
 				},
 				{
-					label: 'Créditos e licenças',
-					translations: { 'en-US': 'Credits and licenses' },
-					items: [{ slug: 'creditos-e-licencas' }],
-				},
-				{
-					label: 'Privacidade',
-					translations: { 'en-US': 'Privacy' },
-					items: [{ slug: 'politica-de-privacidade' }],
+					label: 'Sobre o Projeto',
+					translations: { 'en-US': 'About the Project' },
+					items: [
+						{ slug: 'sobre-o-projeto' },
+						{ slug: 'creditos-e-licencas' },
+						{ slug: 'politica-de-privacidade' },
+					],
 				},
 			],
 		}),

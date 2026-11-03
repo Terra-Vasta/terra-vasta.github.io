@@ -1,5 +1,5 @@
 ---
-title: Credits and licenses
+title: Credits and Licenses
 description: Licenses for the content, code, and reference material.
 ---
 
@@ -18,16 +18,3 @@ This work includes material from the **System Reference Document 5.2 (SRD 5.2)**
 > This work includes material from the System Reference Document 5.2 (SRD 5.2) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 
 Terra Vasta is an independent publication and is not affiliated with or endorsed by Wizards of the Coast. Third-party names, trademarks, logos, and visual identities are not covered by this repository's licenses.
-
-<section class="support-callout" aria-labelledby="support-title">
-	<h2 id="support-title">Follow and support the project</h2>
-	<p>If this project is useful to you, consider <a href="https://ko-fi.com/majorteko">supporting it on Ko-fi</a>. You can also follow updates on <a href="https://bsky.app/profile/majorteko.bsky.social">Bluesky</a> and <a href="https://x.com/MajorTeko">X</a>.</p>
-</section>
-
-## About the studio
-
-Dragão de Botas Studio is an independent studio dedicated to creating tabletop RPGs, books, and video games. Terra Vasta is one of the studio’s original projects.
-
-## Contact
-
-For questions about the project, the website, or this policy, email [dragaodebotas.studio@gmail.com](mailto:dragaodebotas.studio@gmail.com). See also the [Privacy Policy](/en-us/politica-de-privacidade/).
