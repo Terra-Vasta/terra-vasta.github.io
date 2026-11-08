@@ -3,7 +3,7 @@ title: Content model
 description: How game entities are stored to power the site.
 ---
 
-import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+import TerraTermPopup from '../../../../components/TerraTermPopup.astro';
 
 Skills, feats, and spells will each have one Markdown or MDX file. Frontmatter stores fields used in tables, catalogs, and filters; the body stores the full text. These files power both individual pages and lists.
 
@@ -54,7 +54,7 @@ Use `TerraTermPopup` in `.mdx` pages when a term needs a visual preview and its 
 Hover or focus the term to open the preview. On touch screens, the first tap shows the card; the link inside opens the full page. You can also tap the term again to follow its link.
 
 ```mdx
-import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+import TerraTermPopup from '../../../../components/TerraTermPopup.astro';
 
 <TerraTermPopup
   label="Term name"
