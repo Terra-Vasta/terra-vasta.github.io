@@ -1,11 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { unified } from '@astrojs/markdown-remark';
 import termPopovers from './src/plugins/term-popovers.mjs';
 
 export default defineConfig({
 	markdown: {
-		remarkPlugins: [termPopovers],
+		processor: unified({ remarkPlugins: [termPopovers] }),
 	},
 	site: 'https://terra-vasta.github.io',
 	integrations: [
