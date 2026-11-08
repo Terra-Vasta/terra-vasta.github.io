@@ -1,0 +1,38 @@
+---
+interface Props {
+	label: string;
+	href: string;
+	icon?: string;
+	image?: string;
+	imageAlt?: string;
+}
+
+const { label, href, icon = '✦', image, imageAlt = '' } = Astro.props;
+const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
+---
+
+<span class="tv-term-inline">
+	<a
+		class="tv-term"
+		href={href}
+		data-tv-popup-title={label}
+		aria-haspopup="dialog"
+		aria-expanded="false"
+	>
+		{label}
+	</a>
+	<template class="tv-term-template">
+		<article class="tv-term-card">
+			<header class="tv-term-card__header">
+				<span class="tv-term-card__icon" aria-hidden="true">{icon}</span>
+				<h3 id="tv-term-card-heading">{label}</h3>
+			</header>
+			{image && <img class="tv-term-card__image" src={image} alt={imageAlt} loading="lazy" />}
+			<div class="tv-term-card__body" id="tv-term-card-body"><slot /></div>
+			<a class="tv-term-card__action" href={href}>
+				{isEnglish ? 'Read the full entry' : 'Ler a página completa'}
+				<span aria-hidden="true">→</span>
+			</a>
+		</article>
+	</template>
+</span>

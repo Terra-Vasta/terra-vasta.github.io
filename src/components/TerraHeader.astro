@@ -9,7 +9,6 @@ const system = isEnglish ? '/en-us/sistema/' : '/sistema/';
 const setting = isEnglish ? '/en-us/cenario/' : '/cenario/';
 const compendiums = isEnglish ? '/en-us/compendios/' : '/compendios/';
 const about = isEnglish ? '/en-us/sobre-o-projeto/' : '/sobre-o-projeto/';
-const sidebarLabel = isEnglish ? 'Collapse navigation sidebar' : 'Recolher menu lateral';
 ---
 
 <div class="tv-site-header">
@@ -20,40 +19,9 @@ const sidebarLabel = isEnglish ? 'Collapse navigation sidebar' : 'Recolher menu 
 		<a href={compendiums}>{isEnglish ? 'Compendiums' : 'Compêndios'}</a>
 		<a href={about}>{isEnglish ? 'About' : 'Sobre o Projeto'}</a>
 	</nav>
-	{Astro.locals.starlightRoute.hasSidebar && (
-		<button class="tv-sidebar-toggle" type="button" aria-expanded="true" aria-controls="starlight__sidebar" aria-label={sidebarLabel} title={sidebarLabel}>
-			<span aria-hidden="true">☰</span>
-		</button>
-	)}
 	<div class="tv-site-header__tools">
-		<Search />
 		<ThemeSelect />
 		<LanguageSelect />
+		<Search />
 	</div>
 </div>
-
-<script>
-	const storageKey = 'tv-sidebar-collapsed';
-	const button = document.querySelector<HTMLButtonElement>('.tv-sidebar-toggle');
-	const updateButton = (collapsed: boolean) => {
-		if (!button) return;
-		const english = document.documentElement.lang === 'en-US';
-		button.setAttribute('aria-expanded', String(!collapsed));
-		button.setAttribute('aria-label', collapsed
-			? (english ? 'Expand navigation sidebar' : 'Expandir menu lateral')
-			: (english ? 'Collapse navigation sidebar' : 'Recolher menu lateral'));
-		button.title = button.getAttribute('aria-label') || '';
-	};
-
-	if (button) {
-		const collapsed = localStorage.getItem(storageKey) === 'true';
-		document.documentElement.toggleAttribute('data-tv-sidebar-collapsed', collapsed);
-		updateButton(collapsed);
-		button.addEventListener('click', () => {
-			const nextCollapsed = !document.documentElement.hasAttribute('data-tv-sidebar-collapsed');
-			document.documentElement.toggleAttribute('data-tv-sidebar-collapsed', nextCollapsed);
-			localStorage.setItem(storageKey, String(nextCollapsed));
-			updateButton(nextCollapsed);
-		});
-	}
-</script>

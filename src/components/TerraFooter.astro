@@ -2,11 +2,13 @@
 import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import TerraPagination from './TerraPagination.astro';
+import TerraTermPopups from './TerraTermPopups.astro';
 
 const isEnglish = Astro.locals.starlightRoute.lang === 'en-US';
 ---
 
 <footer class="tv-doc-footer">
+	<TerraTermPopups />
 	<nav class="tv-footer-social" aria-label={isEnglish ? 'Project links and social media' : 'Links do projeto e redes sociais'}>
 		<span class="tv-footer-social__label">{isEnglish ? 'Follow the project' : 'Acompanhe o projeto'}</span>
 		<a class="tv-footer-social__support" href="https://ko-fi.com/majorteko">{isEnglish ? 'Support on Ko-fi' : 'Apoie no Ko-fi'}</a>

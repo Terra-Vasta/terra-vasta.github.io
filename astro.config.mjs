@@ -1,8 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import termPopovers from './src/plugins/term-popovers.mjs';
 
 export default defineConfig({
+	markdown: {
+		remarkPlugins: [termPopovers],
+	},
 	site: 'https://terra-vasta.github.io',
 	integrations: [
 		starlight({
@@ -17,6 +21,7 @@ export default defineConfig({
 			components: {
 				Header: './src/components/TerraHeader.astro',
 				Footer: './src/components/TerraFooter.astro',
+				Sidebar: './src/components/TerraSidebar.astro',
 				TableOfContents: './src/components/TerraTableOfContents.astro',
 			},
 			social: [

@@ -1,0 +1,167 @@
+<script>
+	const popover = document.createElement('div');
+	popover.className = 'tv-term-popover';
+	popover.id = 'tv-term-popover';
+	popover.setAttribute('role', 'dialog');
+	popover.setAttribute('aria-modal', 'false');
+	popover.setAttribute('aria-hidden', 'true');
+	popover.tabIndex = -1;
+	popover.hidden = true;
+	document.body.append(popover);
+
+	let activeTerm: HTMLAnchorElement | null = null;
+	let closeTimer = 0;
+	let suppressFocus: HTMLAnchorElement | null = null;
+
+	const isTouchLayout = () => matchMedia('(hover: none), (pointer: coarse)').matches;
+
+	function makeFallbackCard(term: HTMLAnchorElement) {
+		const article = document.createElement('article');
+		article.className = 'tv-term-card';
+		const heading = document.createElement('h3');
+		heading.id = 'tv-term-card-heading';
+		heading.textContent = term.textContent?.trim() || '';
+		const header = document.createElement('header');
+		header.className = 'tv-term-card__header';
+		const icon = document.createElement('span');
+		icon.className = 'tv-term-card__icon';
+		icon.setAttribute('aria-hidden', 'true');
+		icon.textContent = '✦';
+		header.append(icon, heading);
+		const body = document.createElement('div');
+		body.className = 'tv-term-card__body';
+		body.id = 'tv-term-card-body';
+		const text = document.createElement('p');
+		text.textContent = term.dataset.tvPreview || '';
+		body.append(text);
+		const action = document.createElement('a');
+		action.className = 'tv-term-card__action';
+		action.href = term.href;
+		action.textContent = document.documentElement.lang === 'en-US' ? 'Read the full entry →' : 'Ler a página completa →';
+		article.append(header, body, action);
+		return article;
+	}
+
+	function placePopoverNear(term: HTMLAnchorElement) {
+		const paragraph = term.closest('p');
+		const listItem = term.closest('li');
+		const table = term.closest('table');
+		const anchor = paragraph || listItem || table || term.parentElement;
+		anchor?.insertAdjacentElement('afterend', popover);
+	}
+
+	function positionPopover(term: HTMLAnchorElement) {
+		const rect = term.getBoundingClientRect();
+		const bounds = popover.getBoundingClientRect();
+		const left = Math.max(12, Math.min(rect.left, window.innerWidth - bounds.width - 12));
+		const below = rect.bottom + 10;
+		const top = below + bounds.height <= window.innerHeight - 12 ? below : Math.max(12, rect.top - bounds.height - 10);
+		popover.style.left = `${left}px`;
+		popover.style.top = `${top}px`;
+	}
+
+	function showPopover(term: HTMLAnchorElement, touch = false) {
+		window.clearTimeout(closeTimer);
+		if (activeTerm && activeTerm !== term) activeTerm.removeAttribute('aria-describedby');
+		activeTerm = term;
+		const template = term.parentElement?.querySelector<HTMLTemplateElement>(':scope > template.tv-term-template');
+		popover.replaceChildren(template ? template.content.cloneNode(true) : makeFallbackCard(term));
+		if (touch) {
+			const hint = document.createElement('p');
+			hint.className = 'tv-term-popover__hint';
+			hint.textContent = document.documentElement.lang === 'en-US'
+				? 'You can also tap the term again to open its full page.'
+				: 'Você também pode tocar no termo novamente para abrir a página completa.';
+			popover.append(hint);
+		}
+		placePopoverNear(term);
+		popover.hidden = false;
+		popover.dataset.open = 'true';
+		popover.setAttribute('aria-hidden', 'false');
+		popover.setAttribute('aria-labelledby', 'tv-term-card-heading');
+		popover.setAttribute('aria-describedby', 'tv-term-card-body');
+		term.setAttribute('aria-controls', popover.id);
+		term.setAttribute('aria-expanded', 'true');
+		term.setAttribute('aria-describedby', 'tv-term-card-body');
+		positionPopover(term);
+	}
+
+	function hidePopover() {
+		window.clearTimeout(closeTimer);
+		if (activeTerm) {
+			activeTerm.removeAttribute('aria-describedby');
+			activeTerm.removeAttribute('aria-controls');
+			activeTerm.setAttribute('aria-expanded', 'false');
+			delete activeTerm.dataset.tvTapOpened;
+		}
+		activeTerm = null;
+		delete popover.dataset.open;
+		popover.setAttribute('aria-hidden', 'true');
+		popover.hidden = true;
+		popover.replaceChildren();
+	}
+
+	function scheduleHide() {
+		window.clearTimeout(closeTimer);
+		closeTimer = window.setTimeout(() => {
+			if (activeTerm?.matches(':hover') || popover.matches(':hover') || activeTerm === document.activeElement || popover.contains(document.activeElement)) return;
+			hidePopover();
+		}, 180);
+	}
+
+	document.addEventListener('pointerover', (event) => {
+		if (event.pointerType === 'touch') return;
+		const target = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a.tv-term[href]') : null;
+		if (target) showPopover(target);
+	});
+
+	document.addEventListener('pointerout', (event) => {
+		if (!activeTerm || event.pointerType === 'touch') return;
+		const target = event.target instanceof Element ? event.target : null;
+		const related = event.relatedTarget instanceof Node ? event.relatedTarget : null;
+		if ((target === activeTerm || activeTerm.contains(target)) && (related === popover || popover.contains(related))) return;
+		if ((target === popover || popover.contains(target)) && (related === activeTerm || activeTerm.contains(related))) return;
+		if (target === activeTerm || activeTerm.contains(target) || target === popover || popover.contains(target)) scheduleHide();
+	});
+
+	document.addEventListener('focusin', (event) => {
+		const target = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a.tv-term[href]') : null;
+		if (!target || target === suppressFocus) return;
+		showPopover(target);
+	});
+
+	document.addEventListener('focusout', (event) => {
+		if (!activeTerm) return;
+		const target = event.target instanceof Element ? event.target : null;
+		if (target === activeTerm || activeTerm.contains(target) || popover.contains(target)) scheduleHide();
+	});
+
+	document.addEventListener('click', (event) => {
+		const target = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a.tv-term[href]') : null;
+		if (isTouchLayout() && target) {
+			if (!target.dataset.tvTapOpened) {
+				event.preventDefault();
+				target.dataset.tvTapOpened = 'true';
+				showPopover(target, true);
+			}
+			return;
+		}
+		if (activeTerm && target !== activeTerm && !(event.target instanceof Node && popover.contains(event.target))) hidePopover();
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && activeTerm) {
+			const restoreFocus = popover.contains(document.activeElement);
+			const trigger = activeTerm;
+			hidePopover();
+			if (restoreFocus) {
+				suppressFocus = trigger;
+				trigger.focus();
+				queueMicrotask(() => { suppressFocus = null; });
+			}
+		}
+	});
+
+	window.addEventListener('resize', () => { if (activeTerm) positionPopover(activeTerm); });
+	window.addEventListener('scroll', () => { if (activeTerm) positionPopover(activeTerm); }, true);
+</script>

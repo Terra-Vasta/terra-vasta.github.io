@@ -1,0 +1,63 @@
+---
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
+
+const { sidebar, lang } = Astro.locals.starlightRoute;
+const isEnglish = lang === 'en-US';
+
+function containsCurrent(entry) {
+	return entry.type === 'link' ? entry.isCurrent : entry.entries.some(containsCurrent);
+}
+
+const currentSection = sidebar.find((entry) => entry.type === 'group' && containsCurrent(entry));
+const sectionLandingPaths = new Set([
+	'/sistema', '/cenario', '/compendios', '/sobre-o-projeto',
+	'/en-us/sistema', '/en-us/cenario', '/en-us/compendios', '/en-us/sobre-o-projeto',
+]);
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+const sectionItems = sectionLandingPaths.has(currentPath) && currentSection ? [currentSection] : sidebar;
+---
+
+<div class="tv-sidebar-control">
+	<button class="tv-sidebar-collapse" type="button" aria-expanded="true" aria-controls="tv-sidebar-nav">
+		<span class="tv-sidebar-collapse__icon" aria-hidden="true"><span class="tv-sidebar-collapse__close">‹</span><span class="tv-sidebar-collapse__open">›</span></span>
+		<span class="tv-sidebar-collapse__label">{isEnglish ? 'Collapse menu' : 'Recolher menu'}</span>
+	</button>
+</div>
+<div id="tv-sidebar-nav" class="tv-sidebar-nav">
+	<SidebarPersister>
+		<SidebarSublist sublist={sectionItems} />
+	</SidebarPersister>
+</div>
+<div class="md:sl-hidden tv-sidebar-mobile-footer">
+	<MobileMenuFooter />
+</div>
+
+<script>
+	const storageKey = 'tv-sidebar-collapsed';
+	const root = document.documentElement;
+	const button = document.querySelector<HTMLButtonElement>('.tv-sidebar-collapse');
+	const label = button?.querySelector<HTMLElement>('.tv-sidebar-collapse__label');
+	const setState = (collapsed: boolean) => {
+		root.toggleAttribute('data-tv-sidebar-collapsed', collapsed);
+		button?.setAttribute('aria-expanded', String(!collapsed));
+		const english = document.documentElement.lang === 'en-US';
+		const text = collapsed
+			? (english ? 'Expand menu' : 'Expandir menu')
+			: (english ? 'Collapse menu' : 'Recolher menu');
+		if (label) label.textContent = text;
+		if (button) button.title = text;
+	};
+
+	if (button) {
+		let collapsed = false;
+		try { collapsed = localStorage.getItem(storageKey) === 'true'; } catch {}
+		setState(collapsed);
+		button.addEventListener('click', () => {
+			collapsed = !root.hasAttribute('data-tv-sidebar-collapsed');
+			setState(collapsed);
+			try { localStorage.setItem(storageKey, String(collapsed)); } catch {}
+		});
+	}
+</script>

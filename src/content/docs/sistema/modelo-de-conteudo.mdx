@@ -1,0 +1,68 @@
+---
+title: Modelo de conteúdo
+description: Como as entidades de jogo são armazenadas para alimentar o site.
+---
+
+import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+
+Perícias, talentos e magias terão um arquivo Markdown ou MDX por entidade. O frontmatter guarda os campos que alimentam tabelas, catálogos e filtros; o corpo guarda o texto completo. Esses arquivos servem como fonte das páginas individuais e das listas.
+
+## Resumo por entidade
+
+| Entidade | Campos da tabela resumida | Apresentação no site |
+| --- | --- | --- |
+| Perícia | Nome, Habilidade, Exemplo de uso | Tabela resumida, listagem alfabética e página individual |
+| Talento | Nome, Categoria, Pré-requisito | Tabela resumida, listagem alfabética e página individual |
+| Magia | Nome, Nível, Caminho/Escola, Alcance, Custo/Ação | Tabelas agrupadas por nível e páginas individuais |
+
+## Localização e slugs
+
+Cada idioma terá seu arquivo dentro da respectiva pasta (`pt-br` ou `en-us`) e compartilhará uma `translationKey` para relacionar versões. O nome do arquivo define um slug estável em minúsculas, sem acentos e separado por hífens. Títulos iguais são permitidos; o slug e a chave de tradução distinguem as entradas.
+
+## Publicação
+
+`published` assume `true` quando omitido. Com `published: false`, a entrada fica fora de tabelas e listagens. A página individual ainda poderá existir e ser acessada pelo endereço direto, conforme definido para o projeto.
+
+## Campos das entidades
+
+- **Perícia:** título, habilidade e exemplo de uso.
+- **Talento:** título, categoria e pré-requisito opcional.
+- **Magia:** título, nível inteiro (inclui nível 0), caminho/escola, alcance e custo/ação.
+
+O texto e os valores específicos de jogo serão adicionados a partir do SRD 5.2.1 ou de material original aprovado para Terra Vasta. Esta página não cria regras ou entradas fictícias.
+
+## Termos com popup
+
+Use `TerraTermPopup` em páginas `.mdx` quando um termo tiver uma prévia visual e uma página própria. O cartão aceita ícone, imagem e conteúdo MDX com parágrafos, ênfase, listas e outros elementos formatados. Links comuns continuam azuis; somente esse componente recebe o estilo de termo interativo.
+
+<TerraTermPopup
+	label="Termo demonstrativo"
+	href="/sistema/modelo-de-conteudo/"
+	icon="✧"
+	image="/images/taavira-hero-cidade-nevoa.webp"
+	imageAlt="Ruínas de uma cidade envoltas em névoa."
+>
+	<p>Este cartão é <strong>apenas um exemplo visual</strong>. Use o texto da prévia para resumir o termo sem substituir a página completa.</p>
+	<p>O conteúdo pode incluir <em>formatação</em> e também listas:</p>
+	<ul>
+		<li>um ponto importante;</li>
+		<li>outro detalhe breve.</li>
+	</ul>
+	<p>Substitua este texto ilustrativo por uma descrição aprovada para o projeto.</p>
+</TerraTermPopup>
+
+O termo abre a prévia ao passar o cursor ou receber foco. Em telas touch, o primeiro toque mostra o cartão; o link dentro dele abre a página completa. Também é possível tocar no termo novamente para seguir o link.
+
+```mdx
+import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+
+<TerraTermPopup
+  label="Nome do termo"
+  href="/sistema/caminho-da-pagina/"
+  icon="✧"
+  image="/images/ilustracao.webp"
+  imageAlt="Descrição da imagem."
+>
+  <p>Prévia com <strong>ênfase</strong> e texto curto.</p>
+</TerraTermPopup>
+```

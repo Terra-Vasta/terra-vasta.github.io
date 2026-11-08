@@ -1,0 +1,68 @@
+---
+title: Content model
+description: How game entities are stored to power the site.
+---
+
+import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+
+Skills, feats, and spells will each have one Markdown or MDX file. Frontmatter stores fields used in tables, catalogs, and filters; the body stores the full text. These files power both individual pages and lists.
+
+## Entity summary
+
+| Entity | Summary table fields | Site presentation |
+| --- | --- | --- |
+| Skill | Name, Ability, Example use | Summary table, alphabetical listing, and individual page |
+| Feat | Name, Category, Prerequisite | Summary table, alphabetical listing, and individual page |
+| Spell | Name, Level, Path/School, Range, Cost/Action | Tables grouped by level and individual pages |
+
+## Localization and slugs
+
+Each language has a file under its locale folder (`pt-br` or `en-us`) and shares a `translationKey` to relate translations. The filename defines a stable lowercase slug without accents, with words separated by hyphens. Duplicate titles are allowed; the slug and translation key distinguish entries.
+
+## Publication
+
+`published` defaults to `true` when omitted. With `published: false`, the entry is left out of tables and lists. Its individual page may still exist and be reachable by direct URL, as defined for this project.
+
+## Entity fields
+
+- **Skill:** title, ability, and example use.
+- **Feat:** title, category, and optional prerequisite.
+- **Spell:** title, integer level (including level 0), path/school, range, and cost/action.
+
+Game text and values will come from SRD 5.2.1 or original material approved for Terra Vasta. This page does not create fictional rules or entries.
+
+## Terms with popups
+
+Use `TerraTermPopup` in `.mdx` pages when a term needs a visual preview and its own full page. The card accepts an icon, image, and MDX content with paragraphs, emphasis, lists, and other formatting. Regular links stay blue; only this component uses the interactive-term style.
+
+<TerraTermPopup
+	label="Example term"
+	href="/en-us/sistema/modelo-de-conteudo/"
+	icon="✧"
+	image="/images/taavira-hero-cidade-nevoa.webp"
+	imageAlt="Ruins of a city surrounded by mist."
+>
+	<p>This card is <strong>only a visual example</strong>. Use the preview to summarize the term without replacing its full page.</p>
+	<p>The content can include <em>formatting</em> and lists:</p>
+	<ul>
+		<li>one important point;</li>
+		<li>another brief detail.</li>
+	</ul>
+	<p>Replace this illustrative text with a description approved for the project.</p>
+</TerraTermPopup>
+
+Hover or focus the term to open the preview. On touch screens, the first tap shows the card; the link inside opens the full page. You can also tap the term again to follow its link.
+
+```mdx
+import TerraTermPopup from '../../../components/TerraTermPopup.astro';
+
+<TerraTermPopup
+  label="Term name"
+  href="/en-us/sistema/path-to-page/"
+  icon="✧"
+  image="/images/illustration.webp"
+  imageAlt="Image description."
+>
+  <p>Preview with <strong>emphasis</strong> and concise text.</p>
+</TerraTermPopup>
+```
