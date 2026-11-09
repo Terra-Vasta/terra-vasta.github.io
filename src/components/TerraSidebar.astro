@@ -11,18 +11,13 @@ function containsCurrent(entry) {
 }
 
 const currentSection = sidebar.find((entry) => entry.type === 'group' && containsCurrent(entry));
-const sectionLandingPaths = new Set([
-	'/sistema', '/cenario', '/compendios', '/sobre-o-projeto',
-	'/en-us/sistema', '/en-us/cenario', '/en-us/compendios', '/en-us/sobre-o-projeto',
-]);
-const currentPath = Astro.url.pathname.replace(/\/$/, '');
-const sectionItems = sectionLandingPaths.has(currentPath) && currentSection ? [currentSection] : sidebar;
+const sectionItems = currentSection ? [currentSection] : sidebar;
+const collapseLabel = isEnglish ? 'Collapse section menu' : 'Recolher menu da seção';
 ---
 
 <div class="tv-sidebar-control">
-	<button class="tv-sidebar-collapse" type="button" aria-expanded="true" aria-controls="tv-sidebar-nav">
-		<span class="tv-sidebar-collapse__icon" aria-hidden="true"><span class="tv-sidebar-collapse__close">‹</span><span class="tv-sidebar-collapse__open">›</span></span>
-		<span class="tv-sidebar-collapse__label">{isEnglish ? 'Collapse menu' : 'Recolher menu'}</span>
+	<button class="tv-sidebar-collapse" type="button" aria-expanded="true" aria-controls="tv-sidebar-nav" aria-label={collapseLabel} title={collapseLabel}>
+		<svg class="tv-sidebar-collapse__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
 	</button>
 </div>
 <div id="tv-sidebar-nav" class="tv-sidebar-nav">
@@ -38,15 +33,14 @@ const sectionItems = sectionLandingPaths.has(currentPath) && currentSection ? [c
 	const storageKey = 'tv-sidebar-collapsed';
 	const root = document.documentElement;
 	const button = document.querySelector<HTMLButtonElement>('.tv-sidebar-collapse');
-	const label = button?.querySelector<HTMLElement>('.tv-sidebar-collapse__label');
 	const setState = (collapsed: boolean) => {
 		root.toggleAttribute('data-tv-sidebar-collapsed', collapsed);
 		button?.setAttribute('aria-expanded', String(!collapsed));
 		const english = document.documentElement.lang === 'en-US';
 		const text = collapsed
-			? (english ? 'Expand menu' : 'Expandir menu')
-			: (english ? 'Collapse menu' : 'Recolher menu');
-		if (label) label.textContent = text;
+			? (english ? 'Expand section menu' : 'Expandir menu da seção')
+			: (english ? 'Collapse section menu' : 'Recolher menu da seção');
+		button?.setAttribute('aria-label', text);
 		if (button) button.title = text;
 	};
 
