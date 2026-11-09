@@ -26,9 +26,9 @@ Use a Markdown table for short content and quick reference.
 
 ### Large table
 
-Place `::table-large[Table title]` immediately before the table. This variant adds an accessible caption, alternating row colors, and horizontal scrolling on narrow screens.
+Place `LARGE TABLE: Table title` immediately before the table. This variant adds an accessible caption, alternating row colors, and horizontal scrolling on narrow screens.
 
-::table-large[Example skill catalog]
+LARGE TABLE: Example skill catalog
 
 | Skill | Ability | Example use |
 | --- | --- | --- |
@@ -40,6 +40,8 @@ Place `::table-large[Table title]` immediately before the table. This variant ad
 ## Terms with popups
 
 In any `.md` page, write `:term[Acrobatics]{href="/en-us/sistema/modelo-de-conteudo/#acrobatics"}`. The popup fetches its preview from the destination page, so the summary is not duplicated beside the link.
+
+Interactive example: :term[Acrobatics]{href="/en-us/sistema/modelo-de-conteudo/#acrobatics"}.
 
 ## Acrobatics
 

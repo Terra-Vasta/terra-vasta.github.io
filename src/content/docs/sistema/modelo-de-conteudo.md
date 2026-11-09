@@ -26,9 +26,9 @@ Use uma tabela Markdown para conteúdo curto ou de consulta rápida.
 
 ### Tabela grande
 
-Anteponha `::table-large[Título da tabela]` imediatamente antes da tabela. A variante acrescenta título acessível, linhas alternadas e rolagem horizontal em telas estreitas.
+Anteponha `LARGE TABLE: Título da tabela` imediatamente antes da tabela. A variante acrescenta título acessível, linhas alternadas e rolagem horizontal em telas estreitas.
 
-::table-large[Exemplo de catálogo de perícias]
+LARGE TABLE: Exemplo de catálogo de perícias
 
 | Perícia | Habilidade | Exemplo de uso |
 | --- | --- | --- |
@@ -40,6 +40,8 @@ Anteponha `::table-large[Título da tabela]` imediatamente antes da tabela. A va
 ## Termos com popup
 
 Em qualquer `.md`, escreva `:term[Acrobacia]{href="/sistema/modelo-de-conteudo/#acrobacia"}`. O popup busca a prévia na página indicada; não repita o texto junto ao link.
+
+Exemplo interativo: :term[Acrobacia]{href="/sistema/modelo-de-conteudo/#acrobacia"}.
 
 ## Acrobacia
 
