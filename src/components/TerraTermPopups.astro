@@ -12,10 +12,11 @@
 	let activeTerm: HTMLAnchorElement | null = null;
 	let closeTimer = 0;
 	let suppressFocus: HTMLAnchorElement | null = null;
+	const previewCache = new Map<string, Document | null>();
 
 	const isTouchLayout = () => matchMedia('(hover: none), (pointer: coarse)').matches;
 
-	function makeFallbackCard(term: HTMLAnchorElement) {
+	async function makeCard(term: HTMLAnchorElement) {
 		const article = document.createElement('article');
 		article.className = 'tv-term-card';
 		const heading = document.createElement('h3');
@@ -31,9 +32,21 @@
 		const body = document.createElement('div');
 		body.className = 'tv-term-card__body';
 		body.id = 'tv-term-card-body';
-		const text = document.createElement('p');
-		text.textContent = term.dataset.tvPreview || '';
-		body.append(text);
+		let preview = previewCache.get(term.href);
+		if (preview === undefined) {
+			try {
+				const response = await fetch(term.href, { headers: { 'X-Requested-With': 'tv-term-preview' } });
+				preview = response.ok ? new DOMParser().parseFromString(await response.text(), 'text/html') : null;
+			} catch { preview = null; }
+			previewCache.set(term.href, preview);
+		}
+		const source = preview?.querySelector<HTMLElement>('[data-tv-popup-preview-source]');
+		if (source) body.append(...Array.from(source.childNodes, (node) => node.cloneNode(true)));
+		else {
+			const text = document.createElement('p');
+			text.textContent = term.dataset.tvPreview || '';
+			body.append(text);
+		}
 		const action = document.createElement('a');
 		action.className = 'tv-term-card__action';
 		action.href = term.href;
@@ -53,19 +66,22 @@
 	function positionPopover(term: HTMLAnchorElement) {
 		const rect = term.getBoundingClientRect();
 		const bounds = popover.getBoundingClientRect();
+		const gap = 12;
 		const left = Math.max(12, Math.min(rect.left, window.innerWidth - bounds.width - 12));
-		const below = rect.bottom + 10;
-		const top = below + bounds.height <= window.innerHeight - 12 ? below : Math.max(12, rect.top - bounds.height - 10);
+		const below = rect.bottom + gap;
+		const above = rect.top - bounds.height - gap;
+		const top = below + bounds.height <= window.innerHeight - 12 ? below : Math.max(12, above);
 		popover.style.left = `${left}px`;
 		popover.style.top = `${top}px`;
 	}
 
-	function showPopover(term: HTMLAnchorElement, touch = false) {
+	async function showPopover(term: HTMLAnchorElement, touch = false) {
 		window.clearTimeout(closeTimer);
 		if (activeTerm && activeTerm !== term) activeTerm.removeAttribute('aria-describedby');
 		activeTerm = term;
 		const template = term.parentElement?.querySelector<HTMLTemplateElement>(':scope > template.tv-term-template');
-		popover.replaceChildren(template ? template.content.cloneNode(true) : makeFallbackCard(term));
+		popover.replaceChildren(template ? template.content.cloneNode(true) : await makeCard(term));
+		if (activeTerm !== term) return;
 		if (touch) {
 			const hint = document.createElement('p');
 			hint.className = 'tv-term-popover__hint';
